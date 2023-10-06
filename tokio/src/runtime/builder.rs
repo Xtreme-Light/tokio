@@ -39,45 +39,53 @@ use std::time::Duration;
 /// }
 /// ```
 pub struct Builder {
+    /// 运行态类型
     /// Runtime type
     kind: Kind,
-
+    /// 是否开启 IO 驱动
     /// Whether or not to enable the I/O driver
     enable_io: bool,
     nevents: usize,
 
+    /// 是否开启时间驱动，这里的时间驱动和上面的IO驱动都是tokio自行封装的
     /// Whether or not to enable the time driver
     enable_time: bool,
 
     /// Whether or not the clock should start paused.
     start_paused: bool,
 
+    /// 工作线程数量
     /// The number of worker threads, used by Runtime.
     ///
     /// Only used when not using the current-thread executor.
     worker_threads: Option<usize>,
-
+    /// 最大阻塞线程数量
     /// Cap on thread usage.
     max_blocking_threads: usize,
 
     /// Name fn used for threads spawned by the runtime.
     pub(super) thread_name: ThreadNameFn,
 
+    /// 线程栈大小
     /// Stack size used for threads spawned by the runtime.
     pub(super) thread_stack_size: Option<usize>,
 
+    /// 线程启动后的回调
     /// Callback to run after each thread starts.
     pub(super) after_start: Option<Callback>,
 
+    /// 线程停止前的回调
     /// To run before each worker thread stops
     pub(super) before_stop: Option<Callback>,
-
+    /// 线程parked 前的回调 TODO parked 
     /// To run before each worker thread is parked.
     pub(super) before_park: Option<Callback>,
-
+    /// 在线程 parked 前的回调
     /// To run after each thread is unparked.
     pub(super) after_unpark: Option<Callback>,
 
+
+    /// 线程池阻塞时的保活时间
     /// Customizable keep alive timeout for BlockingPool
     pub(super) keep_alive: Option<Duration>,
 
